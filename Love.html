@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Love 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  background:linear-gradient(135deg,#ff6fae,#ffc3dc);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  font-family:'Poppins',sans-serif;
+}
+
+#start{
+  position:relative;
+}
+
+h1{
+  font-family:'Pacifico',cursive;
+  font-size:70px;
+  text-shadow:0 6px 15px rgba(0,0,0,0.3);
+}
+
+.buttons{
+  margin-top:20px;
+  position:relative;
+}
+
+button{
+  font-size:30px;
+  padding:16px 50px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  margin:10px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.3);
+}
+
+#yes{
+  background:#ff1744;
+  color:white;
+}
+
+#no{
+  background:white;
+  color:#ff1744;
+  position:fixed;   /* IMPORTANT FIX */
+  z-index:10;
+}
+
+/* FINAL TEXT */
+#final{
+  display:none;
+  font-family:'Pacifico',cursive;
+  font-size:75px;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+  100%{transform:scale(1);}
+}
+
+/* EMOJI SHOWER UP */
+.emoji{
+  position:fixed;
+  bottom:-30vh;
+  animation:rise linear forwards;
+}
+
+@keyframes rise{
+  0%{transform:translateY(0); opacity:1;}
+  100%{transform:translateY(-130vh); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="start">
+  <h1>I Love You 💖</h1>
+
+  <div class="buttons">
+    <button id="yes">YES 💘</button>
+    <button id="no">NO 🙈</button>
+  </div>
+</div>
+
+<div id="final">I LOVE YOU SO MUCH 💕😍</div>
+
+<audio id="music">
+  <source src="" type="audio/mpeg">
+</audio>
+
+<script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const start = document.getElementById("start");
+const finalText = document.getElementById("final");
+const music = document.getElementById("music");
+
+/* SAFE RANDOM MOVE (never off-screen) */
+function moveNoButton(){
+  const padding = 20;
+  const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+  const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+}
+
+/* Move EVERY time cursor touches */
+noBtn.addEventListener("mouseenter", moveNoButton);
+
+/* YES click */
+yesBtn.addEventListener("click", ()=>{
+  start.style.display="none";
+  finalText.style.display="block";
+  music.currentTime = 0;
+  music.play();
+  emojiShower();
+});
+
+/* Emoji shower */
+function emojiShower(){
+  const emojis = ["💖","💕","💘","❤️","😍","🥰","💞"];
+  setInterval(()=>{
+    const e = document.createElement("div");
+    e.className="emoji";
+    e.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left = Math.random()*100 + "vw";
+    e.style.fontSize = (60 + Math.random()*40) + "px";
+    e.style.animationDuration = (2 + Math.random()*2) + "s";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),4000);
+  },120);
+}
+</script>
+
+</body>
+</html>
+
